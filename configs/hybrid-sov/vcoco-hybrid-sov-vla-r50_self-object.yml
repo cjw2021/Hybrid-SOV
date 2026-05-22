@@ -1,0 +1,12 @@
+__include__: [
+  '../dataset/vcoco.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  './include/hybrid-sov-vla-r50_hoi.yml',
+]
+
+RTDETRTransformerHOI:
+  num_classes: 81
+  num_verb_classes: 29
+  dataset_file: "vcoco_self_object"

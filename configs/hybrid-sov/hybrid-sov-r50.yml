@@ -1,0 +1,7 @@
+__include__: [
+  '../dataset/hico_det.yml',
+  '../runtime.yml',
+  './include/dataloader.yml',
+  './include/optimizer.yml',
+  './include/hybrid-sov-r50.yml',
+]

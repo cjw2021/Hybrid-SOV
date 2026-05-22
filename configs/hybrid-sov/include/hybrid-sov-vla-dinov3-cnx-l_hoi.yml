@@ -1,0 +1,79 @@
+task: detection
+
+model: RTDETR
+criterion: SetCriterion
+postprocessor: RTDETRPostProcessorHOI
+
+
+RTDETR: 
+  backbone: DINOv3
+  encoder: HybridEncoder
+  decoder: RTDETRTransformerHOI
+  multi_scale: [480, 512, 544, 576, 608, 640, 640, 640, 672, 704, 736, 768, 800]
+
+DINOv3:
+  model_type: 'dinov3_convnext_large'
+
+HybridEncoder:
+  in_channels: [384, 768, 1536]
+  feat_strides: [8, 16, 32]
+
+  # intra
+  hidden_dim: 384
+  use_encoder_idx: [2]
+  num_encoder_layers: 1
+  nhead: 8
+  dim_feedforward: 2048
+  dropout: 0.
+  enc_act: 'gelu'
+  pe_temperature: 10000
+  
+  # cross
+  expansion: 1.0
+  depth_mult: 1
+  act: 'silu'
+
+  # eval
+  eval_spatial_size: [640, 640]
+
+
+RTDETRTransformerHOI:
+  feat_channels: [384, 384, 384]
+  feat_strides: [8, 16, 32]
+  hidden_dim: 256
+  num_levels: 3
+
+  num_queries: 300
+
+  num_decoder_layers: 6
+  num_decoder_points: 4
+  num_denoising: 6
+  
+  eval_idx: -1
+  eval_spatial_size: [640, 640]
+
+  topk_cat: "hoi"
+
+
+
+use_focal_loss: True
+
+RTDETRPostProcessorHOI:
+  num_top_queries: 64
+
+
+SetCriterion:
+  weight_dict: {loss_vfl: 1, loss_sub_bbox: 2.5, loss_obj_bbox: 2.5, loss_sub_giou: 1, loss_obj_giou: 1, loss_verb_ce: 1, loss_hoi_ce: 1}
+  losses: ['vfl_obj_verb_hoi', 'boxes']
+  alpha: 0.75
+  gamma: 2.0
+
+  matcher:
+    type: HungarianMatcher
+    weight_dict: {cost_class: 1, cost_bbox: 2.5, cost_giou: 1, cost_verb_class: 1, cost_hoi_class: 1}
+    # use_focal_loss: True 
+    alpha: 0.25
+    gamma: 2.0
+
+
+

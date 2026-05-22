@@ -2,6 +2,8 @@
 
 Bridging Detection Architectures With Foundation Models: A Unified Framework for Human-Object Interaction Detection.
 
+[[Paper]](https://ieeexplore.ieee.org/document/11367687)
+
 <img src="assets/Hybrid-SOV-VLA.jpg" width="800"/>
 
 ## Requirements
@@ -178,6 +180,7 @@ sh run/vcoco-hybrid-sov-vla-r50_hoi.sh
   title={Bridging Detection Architectures With Foundation Models: A Unified Framework for Human-Object Interaction Detection}, 
   year={2026},
   volume={14},
-  pages={23299-23310}
+  pages={23299-23310},
+  url={https://ieeexplore.ieee.org/document/11367687}
 }
 ```
